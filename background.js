@@ -1,64 +1,72 @@
+// Array para armazenar eventos rastreados
 var trackedEvents = new Array();
-var apiDomainDefault = 'api.segment.io,cdn.dreamdata.cloud,track.attributionapp.com,eu1.segmentapis.com,eu2.segmentapis.com,in.eu1.segmentapis.com,in.eu2.segmentapis.com,events.eu1.segmentapis.com,events.eu2.segmentapis.com';
+
+// Domínios padrão da API que serão rastreados
+var apiDomainDefault = 'api.segment.io,cdn.dreamdata.cloud,track.attributionapp.com,api.analytics.g4educacao.com';
 var apiDomain = apiDomainDefault;
 
-chrome.storage.local.get(['segment_api_domain'],(result) => {
+// Recupera o valor segment_api_domain do armazenamento local, se existir, ou usa o valor padrão
+chrome.storage.local.get(['segment_api_domain'], (result) => {
 	apiDomain = result.segment_api_domain || apiDomainDefault;
 })
 
+// Ouvinte para mudanças no armazenamento local
 chrome.storage.onChanged.addListener((changes, namespace) => {
-	if(namespace === 'local' && changes && changes.segment_api_domain) {
+	if (namespace === 'local' && changes && changes.segment_api_domain) {
 		apiDomain = changes.segment_api_domain.newValue || apiDomainDefault;
 	}
 });
 
+// Função para adicionar zero à esquerda em números menores que 10
 function zeroPad(i) {
 	if (i < 10) {
-		i = "0" + i
+		i = "0" + i;
 	}
 	return i;
 }
 
+// Formata a data para exibir a hora no formato local
 function formatDateToTime(date) {
-	return date.toLocaleTimeString()
+	return date.toLocaleTimeString();
 }
 
+// Executa uma ação com a aba ativa atual
 function withOpenTab(callback) {
 	chrome.tabs.query({
 		active: true,
 		currentWindow: true
 	}, (tabs) => {
 		var tab = tabs[0];
-
 		if (tab) {
 			callback(tab);
 		}
 	});
 }
 
+// Adiciona um novo evento ao início do array de eventos rastreados e envia uma mensagem para o runtime
 function addEvent(event) {
 	trackedEvents.unshift(event);
 	chrome.runtime.sendMessage({ type: "new_event" });
 }
 
-function updateTrackedEventsForTab(tabId,connection) {
+// Atualiza os eventos rastreados para uma aba específica
+function updateTrackedEventsForTab(tabId, connection) {
 	var sendEvents = [];
-
-	for(var i=0;i<trackedEvents.length;i++) {
+	for (var i = 0; i < trackedEvents.length; i++) {
 		if (trackedEvents[i].tabId == tabId) {
 			sendEvents.push(trackedEvents[i]);
 		}
 	}
-
 	connection.postMessage({
 		type: 'update',
 		events: sendEvents
 	});
 }
 
-function clearTrackedEventsForTab(tabId,port) {
+// Limpa os eventos rastreados para uma aba específica
+function clearTrackedEventsForTab(tabId, connection) {
 	var newTrackedEvents = [];
-	for(var i=0;i<trackedEvents.length;i++) {
+	for (var i = 0; i < trackedEvents.length; i++) {
 		if (trackedEvents[i].tabId != tabId) {
 			newTrackedEvents.push(trackedEvents[i]);
 		}
@@ -66,13 +74,13 @@ function clearTrackedEventsForTab(tabId,port) {
 	trackedEvents = newTrackedEvents;
 }
 
+// Adiciona um ouvinte para conexões de porta no runtime
 chrome.runtime.onConnect.addListener((connection) => {
 	var connectionHandler = (msg) => {
 		var tabId = msg.tabId;
 		if (msg.type == 'update') {
 			updateTrackedEventsForTab(tabId, connection);
-		}
-		else if (msg.type == 'clear') {
+		} else if (msg.type == 'clear') {
 			clearTrackedEventsForTab(tabId, connection);
 			updateTrackedEventsForTab(tabId, connection);
 		}
@@ -80,42 +88,44 @@ chrome.runtime.onConnect.addListener((connection) => {
 	connection.onMessage.addListener(connectionHandler);
 });
 
+// Verifica se a chamada é para a API do Segment
 function isSegmentApiCall(url) {
 	var apiDomainParts = apiDomain.split(',');
 	return apiDomainParts.findIndex(d => url.startsWith(`https://${d.trim()}`)) != -1;
 }
 
+// Executa um callback se a resposta for do próprio servidor
 function onOwnServerResponse(url, callback) {
 	withOpenTab((tab) => {
 		try {
 			if ((new URL(tab.url)).host === (new URL(url)).host) {
 				callback();
 			}
-		}
-		catch(exception) {
-			console.log('Could not create URL.');
+		} catch (exception) {
+			console.log('Não foi possível criar a URL.');
 			console.log(exception);
 		}
-	})
+	});
 }
 
+// Converte o tipo de evento em um nome legível
 function eventTypeToName(eventType) {
-	switch(eventType) {
+	switch (eventType) {
 		case 'identify':
-			return 'Identify'
+			return 'Identify';
 		case 'pageLoad':
-			return 'Page Loaded'
+			return 'Page Loaded';
 		case 'batch':
-			return 'Batch'
+			return 'Batch';
 	}
 }
 
+// Manipulador para interceptar requisições antes de serem enviadas
 const onBeforeRequestHandler = (details) => {
 	if (isSegmentApiCall(details.url)) {
 		var bytes = new Uint8Array(details.requestBody.raw[0].bytes);
 		var decoder = new TextDecoder('utf-8');
 		var postedString = decoder.decode(bytes);
-
 		var rawEvent = JSON.parse(postedString);
 
 		var event = {
@@ -127,44 +137,27 @@ const onBeforeRequestHandler = (details) => {
 			event.hostName = tab.url;
 			event.tabId = tab.id;
 
-			if (
-				details.url.endsWith('/v1/t') ||
-				details.url.endsWith('/v2/t') ||
-				details.url.endsWith('/v1/track')
-			) {
+			// Define o tipo de evento baseado na URL
+			if (details.url.endsWith('/v1/t') || details.url.endsWith('/v2/t') || details.url.endsWith('/v1/track')) {
 				event.type = 'track';
-			}
-			else if (
-				details.url.endsWith('/v1/i') ||
-				details.url.endsWith('/v2/i') ||
-				details.url.endsWith('/v1/identify')
-			) {
+			} else if (details.url.endsWith('/v1/i') || details.url.endsWith('/v2/i') || details.url.endsWith('/v1/identify')) {
 				event.type = 'identify';
-			}
-			else if (
-				details.url.endsWith('/v1/p') ||
-				details.url.endsWith('/v2/p') ||
-				details.url.endsWith('/v1/page')
-			) {
+			} else if (details.url.endsWith('/v1/p') || details.url.endsWith('/v2/p') || details.url.endsWith('/v1/page')) {
 				event.type = 'pageLoad';
-			}
-			else if (
-				details.url.endsWith('/v1/batch') ||
-				details.url.endsWith('/v2/batch') ||
-				details.url.endsWith('/v1/b') ||
-				details.url.endsWith('/v2/b')
-			) {
+			} else if (details.url.endsWith('/v1/batch') || details.url.endsWith('/v2/batch') || details.url.endsWith('/v1/b') || details.url.endsWith('/v2/b')) {
 				event.type = 'batch';
 			}
 
+			// Se o tipo de evento for identificado, ele é adicionado ao array de eventos rastreados
 			if (event.type) {
-				event.eventName = eventTypeToName(event.type) || rawEvent.event
+				event.eventName = eventTypeToName(event.type) || rawEvent.event;
 				addEvent(event);
 			}
 		});
 	}
 };
 
+// Ouvinte que intercepta requisições antes de serem enviadas
 chrome.webRequest.onBeforeRequest.addListener(
 	(details) => {
 		onBeforeRequestHandler(details);
@@ -175,11 +168,11 @@ chrome.webRequest.onBeforeRequest.addListener(
 	["requestBody"]
 );
 
-
+// Manipulador para interceptar cabeçalhos recebidos e capturar eventos
 const onHeadersReceivedHandler = (details) => {
 	onOwnServerResponse(details.url, () => {
 		const eventsHeader = details.responseHeaders.find(({ name }) => !!name && name.toLowerCase() === 'x-tracked-events');
-		if (!eventsHeader) return
+		if (!eventsHeader) return;
 
 		withOpenTab((tab) => {
 			const serverTrackedEvents = JSON.parse(eventsHeader.value);
@@ -193,11 +186,12 @@ const onHeadersReceivedHandler = (details) => {
 					tabId: tab.id
 				};
 				addEvent(event);
-			})
+			});
 		});
-	})
+	});
 };
 
+// Ouvinte que intercepta cabeçalhos de respostas
 chrome.webRequest.onHeadersReceived.addListener(
 	(details) => {
 		onHeadersReceivedHandler(details);
