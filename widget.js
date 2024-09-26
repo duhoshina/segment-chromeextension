@@ -1,3 +1,14 @@
+// Evento de clique no botão de alternância
+const themeToggleButton = document.getElementById("theme-toggle-button");
+
+// Função para atualizar a logo
+function updateLogo(src) {
+  const logo = document.getElementById("logo");
+  if (logo) {
+    logo.src = src;
+  }
+}
+
 // Função para alternar o tema
 function toggleTheme() {
   const currentTheme = document.documentElement.getAttribute("data-theme");
@@ -11,7 +22,9 @@ function toggleTheme() {
     updateLogo("https://cdn.g4educacao.com/g4_logo_white_f68a6b6559.png"); // Logo para tema claro
   } else {
     themeIcon.classList.replace("fa-moon", "fa-sun");
-    updateLogo("https://www.abcdacomunicacao.com.br/wp-content/uploads/Logo_G4EDU.jpg"); // Logo para tema escuro
+    updateLogo(
+      "https://www.abcdacomunicacao.com.br/wp-content/uploads/Logo_G4EDU.jpg"
+    ); // Logo para tema escuro
   }
 
   // Armazena o tema atual no localStorage
@@ -21,7 +34,7 @@ function toggleTheme() {
 // Função para aplicar o tema inicial
 function applyInitialTheme() {
   const savedTheme = localStorage.getItem("theme");
-  
+
   if (savedTheme) {
     document.documentElement.setAttribute("data-theme", savedTheme);
     const themeIcon = document.getElementById("theme-icon");
@@ -37,20 +50,23 @@ function applyInitialTheme() {
   }
 }
 
-// Função para atualizar a logo
-function updateLogo(src) {
-  const logo = document.getElementById("logo");
-  if (logo) {
-    logo.src = src;
-  }
-}
-
-// Evento de clique no botão de alternância
-const themeToggleButton = document.getElementById("theme-toggle-button");
-
 if (themeToggleButton) {
-  themeToggleButton.addEventListener('click', toggleTheme);
+  themeToggleButton.addEventListener("click", toggleTheme);
 }
 
 // Aplica o tema inicial ao carregar a página
 applyInitialTheme();
+
+const closeWidgetButton = document.getElementById("close-widget");
+
+if (closeWidgetButton) {
+  closeWidgetButton.addEventListener("click", () => {
+    // Verifica se o widget já existe
+    const existingWidget = document.getElementById("segment-tracker-widget");
+
+    if (existingWidget) {
+      // Remove o widget existente
+      existingWidget.remove();
+    }
+  });
+}

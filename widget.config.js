@@ -1,15 +1,9 @@
-// Flag para verificar se o widget já foi carregado
-let widgetLoaded = false;
-
 // Função para carregar o widget HTML
 function loadWidget() {
-  // Verifica se o widget já foi carregado
-  if (widgetLoaded) return;
-
   // Verifica se o widget já existe
   const existingWidget = document.getElementById('segment-tracker-widget');
+  
   if (existingWidget) {
-    // Remove o widget existente
     existingWidget.remove();
   }
 
@@ -26,8 +20,6 @@ function loadWidget() {
       // Carrega o CSS e JS do widget
       loadWidgetCSS();
       loadWidgetJS();
-
-      widgetLoaded = true; // Marca o widget como carregado
     });
 }
 
