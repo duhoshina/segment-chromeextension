@@ -38,7 +38,7 @@ function loadWidget() {
       // Insere o HTML no body da página
       const widgetContainer = document.createElement('div');
       widgetContainer.innerHTML = html;
-      widgetContainer.id = 'segment-tracker-widget'; // Garante que o novo widget tenha o ID correto
+      widgetContainer.id = 'segment-tracker-widget';
       document.body.appendChild(widgetContainer);
 
       loadWidgetCSS();
