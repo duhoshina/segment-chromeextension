@@ -1,0 +1,171 @@
+/* Variáveis para o modo escuro (padrão) */
+:root {
+  --widget-primary-light: #007bff;
+  --widget-bg-light: #f9f9f9;
+  --widget-bg-secondary-light: #ffffff;
+  --widget-bg-hover-secondary-light: #e2e2e2;
+  --widget-shadow-color-light: rgba(0, 0, 0, 0.1);
+  --widget-shadow-hover-color-light: rgba(0, 0, 0, 0.2);
+  --widget-icon-color-light: #6c757d;
+
+  --widget-primary-dark: #e46354;
+  --widget-bg-dark: #262625;
+  --widget-bg-secondary-dark: #39393b;
+  --widget-bg-hover-secondary-dark: #696969;
+  --widget-shadow-color-dark: rgba(0, 0, 0, 0.15);
+  --widget-shadow-hover-color-dark: rgba(0, 0, 0, 0.2);
+  --widget-icon-color-dark: #a2a2a3;
+
+  --widget-primary: var(--widget-primary-dark);
+  --widget-bg: var(--widget-bg-dark);
+  --widget-bg-secondary: var(--widget-bg-secondary-dark);
+  --widget-bg-hover-secondary: var(--widget-bg-hover-secondary-dark);
+  --widget-shadow-color: var(--widget-shadow-color-dark);
+  --widget-shadow-hover-color: var(--widget-shadow-hover-color-dark);
+  --widget-icon-color: var(--widget-icon-color-dark);
+
+  font-family: "Montserrat", sans-serif;
+}
+
+[data-theme="light"] {
+  --widget-primary: var(--widget-primary-light);
+  --widget-bg: var(--widget-bg-light);
+  --widget-bg-secondary: var(--widget-bg-secondary-light);
+  --widget-bg-hover-secondary: var(--widget-bg-hover-secondary-light);
+  --widget-shadow-color: var(--widget-shadow-color-light);
+  --widget-shadow-hover-color: var(--widget-shadow-hover-color-light);
+  --widget-icon-color: var(--widget-icon-color-light);
+}
+
+/*---------------------------------------------------------------------*/
+/* UI */
+
+h1 {
+  font-size: 18px; /* Tamanho de fonte um pouco maior */
+}
+
+.text-button {
+  background-color: var(--widget-bg-secondary);
+  border-radius: 5px;
+  cursor: pointer;
+  padding: 6px 10px;
+  font-size: 12px;
+  text-transform: capitalize;
+  transition: background-color 0.3s ease;
+}
+
+.text-button:hover {
+  background-color: var(--widget-primary);
+}
+
+.bg-primary {
+  background-color: var(--widget-primary);
+}
+
+.rounded-button:hover {
+  background-color: var(--widget-bg-hover-secondary);
+}
+
+.rounded-button {
+  width: 40px;
+  height: 40px;
+  color: var(--widget-bg-hover-secondary-dark);
+  background-color: var(--widget-bg-secondary);
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.rounded-button i {
+  font-size: 14px;
+  color: var(--widget-icon-color);
+}
+
+/*---------------------------------------------------------------------*/
+/* Estilos Comuns */
+
+#segment-tracker-widget {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  z-index: 99999999;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  color: var(--widget-bg-light);
+  padding: 20px;
+  border-radius: 8px;
+  background-color: var(--widget-bg);
+  box-shadow: 0 4px 6px var(--widget-shadow-color),
+    0 1px 3px var(--widget-shadow-color);
+  transition: box-shadow 0.3s ease-in-out, background-color 0.3s ease-in-out;
+}
+
+#header {
+  display: flex;
+  gap: 10px;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#logo {
+  width: 58px;
+  height: auto;
+}
+
+#buttons-header {
+  display: flex;
+  gap: 10px;
+}
+
+#search-bar-container {
+  display: flex;
+  justify-content: center;
+}
+
+#search-bar {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  background-color: var(--widget-bg-secondary);
+  border-radius: 8px;
+  padding: 2px 10px;
+  max-width: 600px;
+  box-shadow: 0 2px 4px var(--widget-shadow-color);
+}
+
+#filterInput {
+  flex: 1;
+  border: none;
+  background-color: transparent;
+  color: #333; /* Texto escuro por padrão, será ajustado pelo tema */
+  font-size: 14px;
+  padding: 10px;
+  outline: none;
+}
+
+#filterInput::placeholder {
+  color: var(--widget-icon-color);
+}
+
+#search-button {
+  background-color: transparent;
+  border: none;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+#search-button i {
+  color: var(--widget-icon-color);
+  font-size: 18px;
+}
+
+#buttons-aux {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}

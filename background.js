@@ -43,7 +43,7 @@ function withOpenTab(callback) {
 	});
 }
 
-// Adiciona um novo evento ao início do array de eventos rastreados e envia uma mensagem para o runtime
+// Adiciona um novo evento ao início do array de eventos e envia uma mensagem para o runtime
 function addEvent(event) {
 	trackedEvents.unshift(event);
 	chrome.runtime.sendMessage({ type: "new_event" });
@@ -148,7 +148,7 @@ const onBeforeRequestHandler = (details) => {
 				event.type = 'batch';
 			}
 
-			// Se o tipo de evento for identificado, ele é adicionado ao array de eventos rastreados
+			// Se o tipo de evento for identificado, ele é adicionado ao array de eventos
 			if (event.type) {
 				event.eventName = eventTypeToName(event.type) || rawEvent.event;
 				addEvent(event);
@@ -201,3 +201,13 @@ chrome.webRequest.onHeadersReceived.addListener(
 	},
 	['responseHeaders']
 );
+
+/*---------------------------------------------------------------------*/
+// Scripts internos do widget
+
+chrome.action.onClicked.addListener((tab) => {
+  chrome.scripting.executeScript({
+    target: { tabId: tab.id },
+    files: ['widget.config.js']
+  });
+});

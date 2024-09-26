@@ -1,23 +1,30 @@
 {
-	"name": "Segment Event Tracker",
-	"manifest_version": 3,
-	"version": "3.2",
-	"description": "See when Segment, Rudderstack, Attribution and Dreamdata events are being tracked.",
-	"permissions": [
-		"storage",
-		"webRequest"
-	],
-	"action": {
-		"default_icon": "logo.png",
-		"default_popup": "popup.html"
-	},
-	"icons": {
-		"16": "logo16.png",
-		"48": "logo48.png",
-		"128": "logo.png"
-	},
-	"background": {
-		"service_worker": "background-service.js"
-	},
-	"host_permissions": ["<all_urls>"]
+  "name": "Segment Event Tracker",
+  "manifest_version": 3,
+  "version": "3.2",
+  "description": "See when Segment, Rudderstack, Attribution and Dreamdata events are being tracked.",
+  "permissions": [
+    "storage",
+    "webRequest",
+    "activeTab",
+    "scripting"
+  ],
+  "action": {
+    "default_icon": "logo.png"
+  },
+  "icons": {
+    "16": "logo16.png",
+    "48": "logo48.png",
+    "128": "logo.png"
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "host_permissions": ["<all_urls>"],
+  "web_accessible_resources": [
+    {
+      "resources": ["widget.html", "widget.css"],
+      "matches": ["<all_urls>"]
+    }
+  ]
 }
