@@ -20,12 +20,6 @@
   "background": {
     "service_worker": "background.js"
   },
-	"content_scripts": [
-    {
-      "matches": ["<all_urls>"],
-      "js": ["widget.js"]
-    }
-  ],
   "host_permissions": ["<all_urls>"],
   "web_accessible_resources": [
     {

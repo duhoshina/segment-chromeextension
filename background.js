@@ -202,7 +202,6 @@ chrome.webRequest.onHeadersReceived.addListener(
 	['responseHeaders']
 );
 
-/*---------------------------------------------------------------------*/
 // Scripts internos do widget
 
 chrome.action.onClicked.addListener((tab) => {
