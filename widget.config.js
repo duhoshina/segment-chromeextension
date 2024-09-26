@@ -51,6 +51,14 @@ function loadWidgetCSS() {
   const link = document.createElement('link');
   link.rel = 'stylesheet';
   link.href = chrome.runtime.getURL('widget.css');
+
+  link.onload = () => {
+    console.log('Widget CSS carregado com sucesso.');
+  };
+  link.onerror = () => {
+    console.error('Falha ao carregar o Widget CSS.');
+  };
+
   document.head.appendChild(link);
 }
 
