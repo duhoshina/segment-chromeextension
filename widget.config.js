@@ -40,6 +40,8 @@ function loadWidget() {
       widgetContainer.innerHTML = html;
       widgetContainer.id = 'segment-tracker-widget'; // Garante que o novo widget tenha o ID correto
       document.body.appendChild(widgetContainer);
+
+      loadWidgetCSS();
     });
 }
 
