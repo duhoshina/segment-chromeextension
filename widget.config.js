@@ -42,6 +42,7 @@ function loadWidget() {
       document.body.appendChild(widgetContainer);
 
       loadWidgetCSS();
+      loadWidgetJS();
     });
 }
 

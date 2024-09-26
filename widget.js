@@ -14,5 +14,9 @@ function toggleTheme() {
   }
 }
 
+function helloWorld() {
+  console.log('Hello World!');
+}
+
 // Certifica-se de que o conteúdo é injetado após o DOM estar carregado
 document.addEventListener('DOMContentLoaded', injectStylesAndButton);
