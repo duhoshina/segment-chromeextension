@@ -53,5 +53,18 @@ function loadWidgetCSS() {
   document.head.appendChild(link);
 }
 
+// Função para carregar o JS do widget
+function loadWidgetJS() {
+  const script = document.createElement('script');
+  script.src = chrome.runtime.getURL('widget.js');
+  script.onload = () => {
+    console.log('Widget JS carregado com sucesso.');
+  };
+  script.onerror = () => {
+    console.error('Falha ao carregar o Widget JS.');
+  };
+  document.body.appendChild(script);
+}
+
 // Executa a função para carregar o widget
 loadWidget();
