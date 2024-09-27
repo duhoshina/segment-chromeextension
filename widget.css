@@ -1,7 +1,6 @@
 /* Variáveis para o modo escuro (padrão) */
 :root {
   --widget-text-light: #262625;
-  --widget-primary-light: #e46354; /* Azul */
   --widget-bg-light: #f9f9f9; /* Branco claro */
   --widget-bg-secondary-light: #e9e9e9; /* Branco */
   --widget-bg-tertiary-light: #e9e9e9; /* Branco */
@@ -11,7 +10,6 @@
   --widget-icon-color-light: #6c757d; /* Cinza escuro */
 
   --widget-text-dark: #f9f9f9;
-  --widget-primary-dark: #e46354; /* Coral */
   --widget-bg-dark: #262625; /* Preto muito escuro */
   --widget-bg-secondary-dark: #39393B; /* Cinza escuro */
   --widget-bg-tertiary-dark: #414141; /* Cinza claro */
@@ -21,7 +19,8 @@
   --widget-icon-color-dark: #a2a2a3; /* Cinza claro */
 
   --widget-text: var(--widget-text-dark);
-  --widget-primary: var(--widget-primary-dark);
+  --widget-primary: #e46354;
+  --widget-primary-hover: #ee4c3a;
   --widget-bg: var(--widget-bg-dark);
   --widget-bg-secondary: var(--widget-bg-secondary-dark);
   --widget-bg-tertiary: var(--widget-bg-tertiary-dark);
@@ -35,7 +34,6 @@
 
 [data-theme="light"] {
   --widget-text: var(--widget-text-light);
-  --widget-primary: var(--widget-primary-light);
   --widget-bg: var(--widget-bg-light);
   --widget-bg-secondary: var(--widget-bg-secondary-light);
   --widget-bg-tertiary: var(--widget-bg-secondary-light);
@@ -82,7 +80,6 @@ h1, h2 {
   justify-content: center;
   align-items: center;
   cursor: pointer;
-  transition: background-color 0.3s ease;
 }
 
 .rounded-button:hover {
@@ -97,19 +94,18 @@ h1, h2 {
 
 #segment-tracker-widget {
   position: fixed;
-  top: 10px;
+  top: 30px;
   right: 10px;
   z-index: 99999999;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 15px;
   color: var(--widget-text);
   padding: 20px;
-  border-radius: 8px;
+  border-radius: 10px;
   background-color: var(--widget-bg);
-  box-shadow: 0 4px 6px var(--widget-shadow-color),
-    0 1px 3px var(--widget-shadow-color);
-  transition: box-shadow 0.3s ease-in-out, background-color 0.3s ease-in-out;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.35), /* Sombra maior e mais suave */
+              0 4px 6px rgba(0, 0, 0, 0.15); /* Sombra mais próxima e sutil */
 }
 
 #header {
@@ -166,6 +162,7 @@ h1, h2 {
   display: flex;
   align-items: center;
   cursor: pointer;
+  margin-right: 10px;
 }
 
 #search-button i {
@@ -179,6 +176,11 @@ h1, h2 {
   gap: 10px;
 }
 
+.header-title {
+  display: flex;
+  gap: 10px;
+}
+
 .event {
   width: 100%;
   padding: 14px;
@@ -186,7 +188,41 @@ h1, h2 {
   background-color: var(--widget-bg-secondary);
   display: flex;
   flex-direction: column;
-  gap: 14px;
+}
+
+/* Estilos básicos */
+.event .top {
+  cursor: pointer;
+  position: relative;
+}
+
+.event .top input {
+  position: absolute;
+  inset: 0;
+  cursor: pointer;
+  appearance: none;
+}
+
+.event .bottom {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.5s ease-in-out, opacity 0.3s ease-in-out;
+  opacity: 0;
+  display: flex;
+}
+
+.event:has(input:checked) .bottom {
+  margin-top: 10px;
+  max-height: 500px;
+  opacity: 1;
+}
+
+.event .accordion-icon {
+  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.event:has(input:checked) .accordion-icon {
+  transform: rotateZ(180deg);
 }
 
 .header-event {
@@ -243,17 +279,25 @@ h1, h2 {
   gap: 10px;
 }
 
+.details-buttons .squared-icon {
+  background-color: var(--widget-bg-tertiary);
+}
+
+.details-buttons .squared-icon:hover {
+  cursor: pointer;
+  background-color: var(--widget-bg-hover-secondary);
+}
+
 .container-list {
   width: 100%;
   height: 100%;
-  max-height: 330px;
+  max-height: 280px;
   overflow-y: auto;
   display: flex;
   flex-direction: column;
   gap: 10px;
   border-radius: 10px;
   position: relative;
-  padding-right: 10px;
 }
 
 .container-list::-webkit-scrollbar-track
@@ -277,3 +321,21 @@ h1, h2 {
 	background-color: var(--widget-bg);
 }
 
+#clear-button {
+  width: 100%;
+  padding: 10px;
+  color: white;
+  background-color: var(--widget-primary);
+  border-radius: 5px;
+  font-size: 0.8em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+  font-weight: 600;
+}
+
+#clear-button:hover {
+  background-color: var(--widget-primary-hover);
+  transition: background-color 0.3s ease;
+}

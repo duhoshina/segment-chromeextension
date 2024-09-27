@@ -1,6 +1,8 @@
 <div id="header">
-  <img id="logo" src="https://cdn.g4educacao.com/g4_logo_white_f68a6b6559.png" />
-  <h1>Debugger Analytics</h1>
+  <div class="header-title">
+    <img id="logo" src="https://cdn.g4educacao.com/g4_logo_white_f68a6b6559.png" />
+    <h1>Debugger Analytics</h1>
+  </div>
   <div id="buttons-header">
     <div id="theme-toggle-button" class="rounded-button">
       <i class="fas fa-sun" id="theme-icon"></i>
@@ -26,11 +28,13 @@
   </div>
 </div>
 
+<h2>Eventos Primários</h2>
+
 <ul id="interaction-events" class="container-list">
   <li class="event">
-    <header class="header-event">
+    <header class="header-event top">
       <div class="squared-icon">
-        <i class="fa fa-tag" aria-hidden="true"></i>
+        <i class="fa fa-mouse-pointer" aria-hidden="true"></i>
       </div>
       <div class="shortcut-event">
         <p>Clique do Usuário</p>
@@ -41,18 +45,20 @@
         </div>
       </div>
       <div class="rounded-button">
-        <i class="fa fa-angle-up" aria-hidden="true"></i>
+        <i class="fa fa-angle-down accordion-icon" aria-hidden="true"></i>
       </div>
+      <input type="checkbox">
     </header>
-    <div class="details-container">
+    <div class="details-container bottom">
       <div class="details">
         <p>event: page_clicked</p>
         <p>type: track</p>
         <p>properties {</p>
+        <p>...</p>
       </div>
       <div class="details-buttons">
         <div class="squared-icon">
-          <i class="fa fa-tag" aria-hidden="true"></i>
+          <i class="fa fa-clone" aria-hidden="true"></i>
         </div>
         <div class="squared-icon">
           <i class="fa fa-tag" aria-hidden="true"></i>
@@ -60,72 +66,15 @@
       </div>
     </div>
   </li>
-
-  <li class="event">
-    <header class="header-event">
-      <div class="squared-icon">
-        <i class="fa fa-tag" aria-hidden="true"></i>
-      </div>
-      <div class="shortcut-event">
-        <p>Clique do Usuário</p>
-        <div class="shortcut-details">
-          <p>corp_homepage</p>
-          <p>hero</p>
-          <p>im_traction</p>
-        </div>
-      </div>
-      <div class="rounded-button">
-        <i class="fa fa-angle-down" aria-hidden="true"></i>
-      </div>
-    </header>
-  </li>
-
-  <li class="event">
-    <header class="header-event">
-      <div class="squared-icon">
-        <i class="fa fa-tag" aria-hidden="true"></i>
-      </div>
-      <div class="shortcut-event">
-        <p>Clique do Usuário</p>
-        <div class="shortcut-details">
-          <p>corp_homepage</p>
-          <p>hero</p>
-          <p>im_traction</p>
-        </div>
-      </div>
-      <div class="rounded-button">
-        <i class="fa fa-angle-down" aria-hidden="true"></i>
-      </div>
-    </header>
-  </li>
-
-  <li class="event">
-    <header class="header-event">
-      <div class="squared-icon">
-        <i class="fa fa-tag" aria-hidden="true"></i>
-      </div>
-      <div class="shortcut-event">
-        <p>Clique do Usuário</p>
-        <div class="shortcut-details">
-          <p>corp_homepage</p>
-          <p>hero</p>
-          <p>im_traction</p>
-        </div>
-      </div>
-      <div class="rounded-button">
-        <i class="fa fa-angle-down" aria-hidden="true"></i>
-      </div>
-    </header>
-  </li>
 </ul>
 
 <h2>Eventos Secundários</h2>
 
 <ul id="view-events" class="container-list">
   <li class="event">
-    <header class="header-event">
+    <header class="header-event top">
       <div class="squared-icon">
-        <i class="fa fa-tag" aria-hidden="true"></i>
+        <i class="fa fa-angle-double-down" aria-hidden="true"></i>
       </div>
       <div class="shortcut-event">
         <p>Página Rolada</p>
@@ -136,65 +85,98 @@
         </div>
       </div>
       <div class="rounded-button">
-        <i class="fa fa-angle-down" aria-hidden="true"></i>
+        <i class="fa fa-angle-down accordion-icon" aria-hidden="true"></i>
       </div>
+      <input type="checkbox">
     </header>
+    <div class="details-container bottom">
+      <div class="details">
+        <p>event: page_clicked</p>
+        <p>type: track</p>
+        <p>properties {</p>
+        <p>...</p>
+      </div>
+      <div class="details-buttons">
+        <div class="squared-icon">
+          <i class="fa fa-clone" aria-hidden="true"></i>
+        </div>
+        <div class="squared-icon">
+          <i class="fa fa-tag" aria-hidden="true"></i>
+        </div>
+      </div>
+    </div>
   </li>
 
   <li class="event">
-    <header class="header-event">
+    <header class="header-event top">
       <div class="squared-icon">
-        <i class="fa fa-tag" aria-hidden="true"></i>
+        <i class="fa fa-user" aria-hidden="true"></i>
       </div>
       <div class="shortcut-event">
-        <p>Clique do Usuário</p>
+        <p>Usuário Identificado</p>
         <div class="shortcut-details">
-          <p>corp_homepage</p>
-          <p>hero</p>
-          <p>im_traction</p>
+          <p>l.hoshina@g4educacao.com</p>
         </div>
       </div>
       <div class="rounded-button">
-        <i class="fa fa-angle-down" aria-hidden="true"></i>
+        <i class="fa fa-angle-down accordion-icon" aria-hidden="true"></i>
       </div>
+      <input type="checkbox">
     </header>
+    <div class="details-container bottom">
+      <div class="details">
+        <p>event: page_clicked</p>
+        <p>type: track</p>
+        <p>properties {</p>
+        <p>...</p>
+      </div>
+      <div class="details-buttons">
+        <div class="squared-icon">
+          <i class="fa fa-clone" aria-hidden="true"></i>
+        </div>
+        <div class="squared-icon">
+          <i class="fa fa-tag" aria-hidden="true"></i>
+        </div>
+      </div>
+    </div>
   </li>
 
   <li class="event">
-    <header class="header-event">
+    <header class="header-event top">
       <div class="squared-icon">
-        <i class="fa fa-tag" aria-hidden="true"></i>
+        <i class="fa fa-eye" aria-hidden="true"></i>
       </div>
       <div class="shortcut-event">
-        <p>Clique do Usuário</p>
+        <p>Visualização de Página</p>
         <div class="shortcut-details">
           <p>corp_homepage</p>
-          <p>hero</p>
-          <p>im_traction</p>
         </div>
       </div>
       <div class="rounded-button">
-        <i class="fa fa-angle-down" aria-hidden="true"></i>
+        <i class="fa fa-angle-down accordion-icon" aria-hidden="true"></i>
       </div>
+      <input type="checkbox">
     </header>
+    <div class="details-container bottom">
+      <div class="details">
+        <p>event: page_clicked</p>
+        <p>type: track</p>
+        <p>properties {</p>
+        <p>...</p>
+      </div>
+      <div class="details-buttons">
+        <div class="squared-icon">
+          <i class="fa fa-clone" aria-hidden="true"></i>
+        </div>
+        <div class="squared-icon">
+          <i class="fa fa-tag" aria-hidden="true"></i>
+        </div>
+      </div>
+    </div>
   </li>
-
-  <div class="event">
-    <header class="header-event">
-      <div class="squared-icon">
-        <i class="fa fa-tag" aria-hidden="true"></i>
-      </div>
-      <div class="shortcut-event">
-        <p>Clique do Usuário</p>
-        <div class="shortcut-details">
-          <p>corp_homepage</p>
-          <p>hero</p>
-          <p>im_traction</p>
-        </div>
-      </div>
-      <div class="rounded-button">
-        <i class="fa fa-angle-down" aria-hidden="true"></i>
-      </div>
-    </header>
-  </div>
 </ul>
+
+<button id="clear-button">
+  Limpar Eventos
+  <i class="fa fa-trash" aria-hidden="true"></i>
+</button>

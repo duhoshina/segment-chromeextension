@@ -26,7 +26,9 @@
       "resources": [
         "widget.html",
         "widget.css",
-        "widget.js"
+        "widget.js",
+        "events.js",
+        "theme.js"
       ],
       "matches": ["<all_urls>"]
     }
