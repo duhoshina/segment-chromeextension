@@ -6,14 +6,21 @@ var apiDomainDefault = 'api.segment.io,cdn.dreamdata.cloud,track.attributionapp.
 var apiDomain = apiDomainDefault;
 
 // Recupera o valor segment_api_domain do armazenamento local, se existir, ou usa o valor padrão
-chrome.storage.local.get(['segment_api_domain'], (result) => {
-	apiDomain = result.segment_api_domain || apiDomainDefault;
-})
+chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
+  if (msg.type === "getData") {
+    // Aqui você pode pegar dados, por exemplo, do armazenamento
+    chrome.storage.local.get(["segment_api_domain"], (result) => {
+      sendResponse({ domain: result.segment_api_domain || apiDomainDefault });
+    });
+    return true; // Indica que você vai enviar uma resposta de forma assíncrona
+  }
+});
 
 // Ouvinte para mudanças no armazenamento local
 chrome.storage.onChanged.addListener((changes, namespace) => {
 	if (namespace === 'local' && changes && changes.segment_api_domain) {
 		apiDomain = changes.segment_api_domain.newValue || apiDomainDefault;
+		console.log('API Domain changed to:', apiDomain); // Log da mudança de domínio
 	}
 });
 
@@ -46,6 +53,7 @@ function withOpenTab(callback) {
 // Adiciona um novo evento ao início do array de eventos e envia uma mensagem para o runtime
 function addEvent(event) {
 	trackedEvents.unshift(event);
+	console.log('New event added:', event); // Log do novo eventos
 	chrome.runtime.sendMessage({ type: "new_event" });
 }
 
@@ -153,6 +161,8 @@ const onBeforeRequestHandler = (details) => {
 				event.eventName = eventTypeToName(event.type) || rawEvent.event;
 				addEvent(event);
 			}
+
+			console.log('Segment API call detected:', details.url); // Log da chamada da API
 		});
 	}
 };
@@ -187,6 +197,7 @@ const onHeadersReceivedHandler = (details) => {
 				};
 				addEvent(event);
 			});
+			console.log('Server events received:', serverTrackedEvents); // Log dos eventos recebidos do servidor
 		});
 	});
 };
@@ -203,6 +214,20 @@ chrome.webRequest.onHeadersReceived.addListener(
 );
 
 // Scripts internos do widget
+
+chrome.action.onClicked.addListener((tab) => {
+  chrome.scripting.executeScript({
+    target: { tabId: tab.id },
+    files: ["events.js"],
+  });
+});
+
+chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+	if (request.type === "connect") {
+		// Responde ao script de conteúdo
+		sendResponse({ message: "Conexão estabelecida!" });
+	}
+});
 
 chrome.action.onClicked.addListener((tab) => {
   chrome.scripting.executeScript({

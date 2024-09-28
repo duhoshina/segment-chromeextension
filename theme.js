@@ -1,50 +1,54 @@
-const themeToggleButton = document.getElementById("theme-toggle-button");
+class ThemeManager {
+  constructor(toggleButtonId, logoId, themeIconId) {
+    this.themeToggleButton = document.getElementById(toggleButtonId);
+    this.logo = document.getElementById(logoId);
+    this.themeIcon = document.getElementById(themeIconId);
+    this.themes = {
+      light: {
+        logoSrc: "https://www.abcdacomunicacao.com.br/wp-content/uploads/Logo_G4EDU.jpg",
+        iconClass: "fa-sun",
+      },
+      dark: {
+        logoSrc: "https://cdn.g4educacao.com/g4_logo_white_f68a6b6559.png",
+        iconClass: "fa-moon",
+      },
+    };
 
-function updateLogo(src) {
-  const logo = document.getElementById("logo");
-  if (logo) {
-    logo.src = src;
-  }
-}
-
-function toggleTheme() {
-  const currentTheme = document.documentElement.getAttribute("data-theme");
-  const newTheme = currentTheme === "light" ? "dark" : "light";
-  document.documentElement.setAttribute("data-theme", newTheme);
-
-  const themeIcon = document.getElementById("theme-icon");
-  if (newTheme === "dark") {
-    themeIcon.classList.replace("fa-sun", "fa-moon");
-    updateLogo("https://cdn.g4educacao.com/g4_logo_white_f68a6b6559.png");
-  } else {
-    themeIcon.classList.replace("fa-moon", "fa-sun");
-    updateLogo(
-      "https://www.abcdacomunicacao.com.br/wp-content/uploads/Logo_G4EDU.jpg"
-    );
+    this.init();
   }
 
-  localStorage.setItem("theme", newTheme);
-}
+  updateLogo(theme) {
+    if (this.logo) {
+      this.logo.src = this.themes[theme]?.logoSrc || this.themes.light.logoSrc; // Fallback to light theme
+    }
+  }
 
-function applyInitialTheme() {
-  const savedTheme = localStorage.getItem("theme");
+  toggleTheme() {
+    const currentTheme = document.documentElement.getAttribute("data-theme");
+    const newTheme = currentTheme === "light" ? "dark" : "light";
 
-  if (savedTheme) {
+    document.documentElement.setAttribute("data-theme", newTheme);
+    this.themeIcon.classList.replace(this.themes[currentTheme].iconClass, this.themes[newTheme].iconClass);
+    this.updateLogo(newTheme);
+    localStorage.setItem("theme", newTheme);
+  }
+
+  applyInitialTheme() {
+    const savedTheme = localStorage.getItem("theme") || "light"; // Fallback to light theme
     document.documentElement.setAttribute("data-theme", savedTheme);
-    const themeIcon = document.getElementById("theme-icon");
-    themeIcon.classList.toggle("fa-sun", savedTheme === "light");
-    themeIcon.classList.toggle("fa-moon", savedTheme === "dark");
+    this.themeIcon.classList.toggle("fa-sun", savedTheme === "light");
+    this.themeIcon.classList.toggle("fa-moon", savedTheme === "dark");
+    this.updateLogo(savedTheme);
+  }
 
-    if (savedTheme === "dark") {
-      updateLogo("https://cdn.g4educacao.com/g4_logo_dark.png");
-    } else {
-      updateLogo("https://cdn.g4educacao.com/g4_logo_white_f68a6b6559.png");
+  init() {
+    this.applyInitialTheme();
+
+    if (this.themeToggleButton) {
+      this.themeToggleButton.addEventListener("click", () => this.toggleTheme());
     }
   }
 }
 
-if (themeToggleButton) {
-  themeToggleButton.addEventListener("click", toggleTheme);
-}
-
-applyInitialTheme();
+// Initialize the ThemeManager
+const themeManager = new ThemeManager("theme-toggle-button", "logo", "theme-icon");
