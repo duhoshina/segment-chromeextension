@@ -1,8 +1,8 @@
 {
-  "name": "Segment Event Tracker",
+  "name": "G4 Debugger Analytics",
   "manifest_version": 3,
-  "version": "3.2",
-  "description": "See when Segment, Rudderstack, Attribution and Dreamdata events are being tracked.",
+  "version": "1.0.1",
+  "description": "Ferramenta de debugger analytics idealizada pelo time de Martech do G4 Educação.",
   "permissions": [
     "storage",
     "webRequest",

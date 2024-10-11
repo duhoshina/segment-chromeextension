@@ -50,5 +50,4 @@ class ThemeManager {
   }
 }
 
-// Initialize the ThemeManager
 const themeManager = new ThemeManager("theme-toggle-button", "logo", "theme-icon");

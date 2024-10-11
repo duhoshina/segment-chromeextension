@@ -1,11 +1,8 @@
-// Armazena eventos capturados
 const capturedEvents = [];
 
-// Sobrescreve o método push do dataLayer
 const originalPush = window.dataLayer.push;
 const scrollEventCount = { count: 1 };
 
-// Função de inicialização para sobrescrever o método push
 function initializeDataLayer() {
   window.dataLayer.push = function (event) {
     originalPush.apply(window.dataLayer, arguments);
@@ -17,12 +14,10 @@ function initializeDataLayer() {
   };
 }
 
-// Verifica se o evento é um objeto válido
 function isValidEvent(event) {
   return typeof event === "object" && event !== null;
 }
 
-// Renderiza o evento com base no tipo
 function renderEvent(event) {
   let listItem;
 
@@ -40,7 +35,7 @@ function renderEvent(event) {
       listItem = createUserIdentifiedEventItem(event);
       break;
     default:
-      return; // Caso não seja um evento conhecido, não faz nada
+      return;
   }
 
   const eventList = document.getElementById(
@@ -49,12 +44,10 @@ function renderEvent(event) {
   eventList.insertBefore(listItem, eventList.firstChild);
 }
 
-// Função para renderizar todos os eventos ao inicializar a extensão
 function renderAllEvents() {
   capturedEvents.forEach((event) => renderEvent(event));
 }
 
-// Cria um item da lista de eventos para page_clicked
 function createInteractionEventItem(event) {
   const listItem = document.createElement("li");
   listItem.className = "event";
@@ -129,15 +122,12 @@ function createViewEventItem(event) {
   return listItem;
 }
 
-// Cria ou atualiza o item para o evento page_scrolled
 function createScrollEventItem(event) {
-  const listItemId = 'scroll-event-item'; // ID único para o item
+  const listItemId = 'scroll-event-item';
 
-  // Tenta encontrar o item existente
   let listItem = document.getElementById(listItemId);
 
   if (!listItem) {
-    // Se o item não existe, cria um novo
     listItem = document.createElement("li");
     listItem.id = listItemId;
     listItem.className = "event";
@@ -167,17 +157,15 @@ function createScrollEventItem(event) {
         </div>
     `;
     
-    // Adiciona o novo item à lista
     const eventList = document.getElementById("view-events");
     eventList.insertBefore(listItem, eventList.firstChild);
   } else {
-    // Se o item já existe, atualiza a contagem e o percentage_scrolled
     scrollEventCount.count++;
     const countElement = listItem.querySelector(".scroll-count");
     countElement.textContent = scrollEventCount.count;
 
     const percentageElement = listItem.querySelector(".shortcut-details p");
-    percentageElement.textContent = `${event.percentage_scrolled || "N/A"}%`; // Atualiza o percentage_scrolled
+    percentageElement.textContent = `${event.percentage_scrolled || "N/A"}%`;
   }
 
   addToggleDetailsEvent(listItem);
@@ -319,9 +307,7 @@ function clearEvents() {
   viewEventList.innerHTML = "";
 }
 
-// Adiciona o evento de clique ao botão de limpar
 document.getElementById("clear-button").addEventListener("click", clearEvents);
 
-// Inicializa o dataLayer e renderiza eventos já capturados ao inicializar
 initializeDataLayer();
 renderAllEvents();
